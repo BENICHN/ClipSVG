@@ -1,12 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Globalization;
-using System.Resources;
-using System.Reflection;
 using System.Windows.Forms;
 using System.Diagnostics;
 using System.IO;
@@ -37,9 +31,28 @@ namespace ClipSVG
 
                             File.WriteAllText(sfd.FileName, svgtext);
 
-                            if (MessageBox.Show(Resources.Resources.INFO_Success, "ClipSVG", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == DialogResult.Yes) Process.Start(sfd.FileName);
+                            if (MessageBox.Show(Sentences.INFO_Success, "ClipSVG", MessageBoxButtons.YesNo, MessageBoxIcon.Information) == DialogResult.Yes) Process.Start(sfd.FileName);
                         }
                     }
+                }
+            }
+        }
+    }
+
+    public static class Sentences //We don't use .resx files because it adds .dll files to the builds.
+    {
+        public static string INFO_Success
+        {
+            get
+            {
+                switch (CultureInfo.DefaultThreadCurrentCulture.ToString())
+                {
+                    case "fr-FR":
+                        return "Fichier enregistré." + Environment.NewLine + "Voulez-vous l'ouvrir ?";
+                    case "es-ES":
+                        return "Archivo guardado." + Environment.NewLine + "¿Quiere abrirlo?";
+                    default:
+                        return "File saved." + Environment.NewLine + "Do you want to open it ?";
                 }
             }
         }
